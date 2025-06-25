@@ -42,14 +42,14 @@ function showCommands() {
   console.log("法律工程系统 - 智能助手");
   console.log("=".repeat(50));
   console.log("可用指令:");
-  console.log("  新建案件<案件名称>");
+  console.log("  1、新建案件<案件名称>");
+  console.log("  2、识别争议焦点<案件名称>");
+  console.log("  3、生成诉讼策略<案件名称>");
   console.log("  查看案件列表");
   console.log("  选择案件：<案件名称>");
   console.log("  分析案件材料：<案件名称>");
-  console.log("  识别争议焦点<案件名称>");
   console.log("  生成检索关键词：<案件名称>");
   console.log("  启动律师角色：<案件名称>");
-  console.log("  生成诉讼策略：<案件名称>");
   console.log("  起草<文书类型>：<案件名称>  (如: 起草起诉状：合同纠纷案件)");
   console.log("  启动服务器");
   console.log("  清屏");
@@ -232,11 +232,19 @@ async function processInput(userInput) {
   }
 
   // 处理生成诉讼策略指令
-  match = /生成诉讼策略：(.*)/.exec(userInput);
+  match = /生成诉讼策略(.*)/.exec(userInput);
   if (match) {
     const caseName = match[1];
     console.log(`执行: 生成诉讼策略 "${caseName}"`);
-    notImplemented("生成诉讼策略", caseName);
+    if (COMMANDS_IMPORTED) {
+      await commandModule.generateLitigationStrategy(
+        BASE_DIR,
+        CASES_DIR,
+        caseName
+      );
+    } else {
+      notImplemented("生成诉讼策略", caseName);
+    }
     return;
   }
 
