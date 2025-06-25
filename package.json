@@ -1,0 +1,26 @@
+{
+  "name": "legal-engineering",
+  "version": "1.0.0",
+  "description": "法律工程系统",
+  "main": "assistant.js",
+  "bin": {
+    "legal-assistant": "./assistant.js"
+  },
+  "scripts": {
+    "start": "node assistant.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "legal",
+    "engineering",
+    "law",
+    "assistant"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.6.0",
+    "glob": "^10.3.10",
+    "which": "^4.0.0"
+  }
+}
