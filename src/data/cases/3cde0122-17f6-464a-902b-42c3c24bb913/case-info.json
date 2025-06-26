@@ -1,0 +1,26 @@
+{
+  "caseId": "3cde0122-17f6-464a-902b-42c3c24bb913",
+  "caseName": "测试案件",
+  "caseType": "民商事",
+  "createdAt": "2025-06-26T09:50:45.102Z",
+  "updatedAt": "2025-06-26T09:50:45.107Z",
+  "parties": {
+    "plaintiffs": [],
+    "defendants": [],
+    "thirdParties": []
+  },
+  "materials": [],
+  "analyses": [],
+  "timeline": [
+    {
+      "id": "1750931445107",
+      "title": "创建案件",
+      "description": "创建案件：测试案件",
+      "date": "2025-06-26T09:50:45.107Z",
+      "createdAt": "2025-06-26T09:50:45.107Z"
+    }
+  ],
+  "status": "进行中",
+  "materialCount": 0,
+  "analysisCount": 0
+}

@@ -1,26 +1,42 @@
 {
   "name": "legal-engineering",
   "version": "1.0.0",
-  "description": "法律工程系统",
-  "main": "assistant.js",
+  "description": "法律工程系统 - 法律案件全流程管理与分析平台",
+  "main": "index.js",
   "bin": {
-    "legal-assistant": "./assistant.js"
+    "legal-assistant": "./index.js"
   },
   "scripts": {
-    "start": "node assistant.js",
+    "start": "node index.js",
+    "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
     "legal",
     "engineering",
     "law",
-    "assistant"
+    "assistant",
+    "ai"
   ],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "axios": "^1.6.0",
+    "chalk": "^4.1.2",
+    "commander": "^11.0.0",
+    "dotenv": "^16.3.1",
+    "fs-extra": "^11.1.1",
     "glob": "^10.3.10",
+    "inquirer": "^8.2.5",
+    "markdown-it": "^13.0.1",
+    "moment": "^2.29.4",
+    "uuid": "^9.0.0",
     "which": "^4.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "engines": {
+    "node": ">=14.0.0"
   }
 }
