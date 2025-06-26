@@ -1,0 +1,26 @@
+{
+  "caseId": "3a2365df-097e-4161-b069-8c2d3352a9f6",
+  "caseName": "张三",
+  "caseType": "民商事",
+  "createdAt": "2025-06-26T11:30:55.024Z",
+  "updatedAt": "2025-06-26T11:30:55.025Z",
+  "parties": {
+    "plaintiffs": [],
+    "defendants": [],
+    "thirdParties": []
+  },
+  "materials": [],
+  "analyses": [],
+  "timeline": [
+    {
+      "id": "1750937455025",
+      "title": "创建案件",
+      "description": "创建案件：张三",
+      "date": "2025-06-26T11:30:55.025Z",
+      "createdAt": "2025-06-26T11:30:55.025Z"
+    }
+  ],
+  "status": "进行中",
+  "materialCount": 0,
+  "analysisCount": 0
+}

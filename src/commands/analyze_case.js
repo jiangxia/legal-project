@@ -4,6 +4,7 @@
 
 const path = require("path");
 const fs = require("fs");
+const { getGoalSettingReminder, getCaseAnalysisPrompt } = require("../config/ai_instructions");
 
 /**
  * 案件分析命令处理函数
@@ -90,10 +91,35 @@ async function analyzeDisputeFocus(caseName, context) {
       ? foundCaseDir.substring(3)
       : foundCaseDir;
 
+    // 检查并读取目标设定文件
+    const goalSettingPath = path.join(caseFolderPath, "目标设定.md");
+    let goalSettingContent = "";
+    let goalReminder = "";
+    
+    if (fs.existsSync(goalSettingPath)) {
+      try {
+        goalSettingContent = fs.readFileSync(goalSettingPath, "utf8");
+        goalReminder = getGoalSettingReminder(caseFolderPath);
+        console.log("已读取目标设定文件，将结合目标进行分析");
+      } catch (e) {
+        console.warn(`读取目标设定文件失败: ${e.message}`);
+      }
+    } else {
+      goalReminder = "⚠️ 警告：未找到目标设定文件，建议先完善案件目标设定以获得更精准的分析结果。";
+    }
+
+    // 构建包含目标设定的分析内容
+    const analysisContent = [
+      goalReminder,
+      goalSettingContent ? `\n## 案件目标设定\n${goalSettingContent}\n` : "",
+      "## 案件材料\n",
+      materials.map((m) => `【${m.name}】\n${m.content}`).join("\n\n--- 材料分隔线 ---\n\n")
+    ].join("");
+
     // 使用AI引擎分析争议焦点
     const result = await context.aiEngine.analyze(
       actualCaseName,
-      materials.map((m) => `【${m.name}】\n${m.content}`).join("\n\n--- 材料分隔线 ---\n\n"),
+      analysisContent,
       "civil",
       "dispute-focus"
     );
@@ -111,7 +137,17 @@ async function analyzeDisputeFocus(caseName, context) {
     fs.writeFileSync(filePath, result, 'utf8');
     console.log(`分析结果已保存到: ${filePath}`);
 
-    return `争议焦点分析完成！\n案件: ${actualCaseName}\n分析结果已保存到: ${filename}\n\n分析结果:\n${result}`;
+    const finalResult = [
+      `争议焦点分析完成！`,
+      `案件: ${actualCaseName}`,
+      `分析结果已保存到: ${filename}`,
+      goalSettingContent ? "✅ 已结合案件目标设定进行分析" : "⚠️ 建议完善目标设定文件以获得更精准的分析",
+      "",
+      "分析结果:",
+      result
+    ].join("\n");
+    
+    return finalResult;
   } catch (err) {
     console.error("争议焦点分析出错:", err);
     return `争议焦点分析出错: ${err.message}`;

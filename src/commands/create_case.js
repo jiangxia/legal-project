@@ -5,6 +5,7 @@
 const path = require("path");
 const fs = require("fs");
 const { v4: uuidv4 } = require("uuid");
+const { createGoalSettingContent } = require("../utils/goal_setting");
 
 /**
  * 创建案件命令处理函数
@@ -15,12 +16,12 @@ const { v4: uuidv4 } = require("uuid");
  */
 async function handler(args, context) {
   try {
-    if (args.length < 2) {
-      return "参数不足，请提供案件名称和案件类型。\n用法: /create_case <案件名称> <案件类型> [业务类型]";
+    if (args.length < 1) {
+      return "参数不足，请提供案件名称。\n用法: /create_case <案件名称> [案件类型] [业务类型]";
     }
 
     const caseName = args[0];
-    const caseType = args[1];
+    const caseType = args.length > 1 ? args[1] : "民商事";
     const businessType = args.length > 2 ? args[2] : null;
 
     // 验证案件类型
@@ -141,6 +142,13 @@ async function handler(args, context) {
         );
       }
 
+      // 创建目标设定文件
+      const goalSettingPath = path.join(caseFolderPath, "目标设定.md");
+      if (!fs.existsSync(goalSettingPath)) {
+        const goalContent = createGoalSettingContent(caseName, caseType, businessType);
+        fs.writeFileSync(goalSettingPath, goalContent, "utf8");
+      }
+
       // 创建时间线目录和文件（如果不存在）
       const timelineDir = path.join(caseFolderPath, "时间线");
       if (!fs.existsSync(timelineDir)) {
@@ -187,7 +195,7 @@ async function handler(args, context) {
 
     return `案件创建成功！\n案件ID: ${caseId}\n案件名称: ${caseName}\n案件类型: ${caseType}${
       businessType ? "\n业务类型: " + businessType : ""
-    }\n案件目录已创建: cases/${caseFolderName}/\n\n已按照模板创建案件目录结构。`;
+    }\n案件目录已创建: cases/${caseFolderName}/\n\n已按照模板创建案件目录结构，并生成目标设定文件。\n\n⚠️ 重要提醒：请立即查看并完善 '目标设定.md' 文件，明确案件目标和预期结果。AI助手将始终参考此文件内容进行案件分析和建议。`;
   } catch (err) {
     console.error("创建案件出错:", err);
     return `创建案件出错: ${err.message}`;
@@ -421,14 +429,14 @@ function generateTimelineMd(caseName, timeline) {
 module.exports = {
   name: "create_case",
   aliases: ["新建案件", "new_case"],
-  description: "创建新案件",
-  usage: "/create_case <案件名称> <案件类型> [业务类型]",
+  description: "创建新案件（默认类型：民商事）",
+  usage: "/create_case <案件名称> [案件类型] [业务类型]",
   examples: [
+    "/create_case 张三诉李四合同纠纷案",
     "/create_case 张三诉李四合同纠纷案 民商事",
     "/create_case 王五刑事案件 刑事",
     "/create_case 赵六诉某局行政处罚案 行政",
     "/create_case 孙七合同审查 非诉 合同审查",
-    "/create_case 梁某、林某诉吴某、施工方、保险公司机动车交通事故纠纷 民商事",
   ],
   handler,
 };

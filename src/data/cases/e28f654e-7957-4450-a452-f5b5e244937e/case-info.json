@@ -1,0 +1,26 @@
+{
+  "caseId": "e28f654e-7957-4450-a452-f5b5e244937e",
+  "caseName": "啊啊等等",
+  "caseType": "民商事",
+  "createdAt": "2025-06-26T11:16:59.857Z",
+  "updatedAt": "2025-06-26T11:16:59.859Z",
+  "parties": {
+    "plaintiffs": [],
+    "defendants": [],
+    "thirdParties": []
+  },
+  "materials": [],
+  "analyses": [],
+  "timeline": [
+    {
+      "id": "1750936619859",
+      "title": "创建案件",
+      "description": "创建案件：啊啊等等",
+      "date": "2025-06-26T11:16:59.859Z",
+      "createdAt": "2025-06-26T11:16:59.859Z"
+    }
+  ],
+  "status": "进行中",
+  "materialCount": 0,
+  "analysisCount": 0
+}
